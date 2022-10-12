@@ -11,10 +11,10 @@ services:
       - UI_ENV=test # dev | test | prod 
 
   yelb-appserver:
-    image: mreferre/yelb-appserver:0.6
+    image: vinodkum001/yelbappserver:1
     depends_on:
       - redis-server
-      - yelb-db
+#      - yelb-db
     ports:
       - 4567:4567
     environment:
@@ -25,7 +25,7 @@ services:
     ports:
       - 6379:6379
 
-  yelb-db:
-    image: mreferre/yelb-db:0.6
-    ports:
-      - 5432:5432
+#  yelb-db:
+#    image: mreferre/yelb-db:0.6
+#    ports:
+#      - 5432:5432
