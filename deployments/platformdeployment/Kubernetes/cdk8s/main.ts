@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { App, Chart } from 'cdk8s';
-import { Deployment, Service, IntOrString } from './imports/k8s';
+import { KubeDeployment, KubeService, IntOrString } from './imports/k8s';
 
 export class YelbCdk8s extends Chart {
   constructor(scope: Construct, name: string) {
@@ -8,12 +8,11 @@ export class YelbCdk8s extends Chart {
 
     const yelbuilabel = { app: 'yelb-ui-deployment' };
     const yelbappserverlabel = { app: 'yelb-appserver-deployment' };
-    const yelbdblabel = { app: 'yelb-db-deployment' };
     const redisserverlabel = { app: 'redis-server-deployment' };
 
     // -------------------------------------------------------------------- //
 
-    new Service(this, 'yelb-ui', {
+    new KubeService(this, 'yelb-ui', {
       metadata: { name: "yelb-ui"},
       spec: {
         type: 'LoadBalancer',
@@ -22,9 +21,9 @@ export class YelbCdk8s extends Chart {
       }
     });
 
-    new Deployment(this, 'yelb-ui-deployment', {
+    new KubeDeployment(this, 'yelb-ui-deployment', {
       spec: {
-        replicas: 3,
+        replicas: 2,
         selector: {
           matchLabels: yelbuilabel
         },
@@ -46,7 +45,7 @@ export class YelbCdk8s extends Chart {
 
     // -------------------------------------------------------------------- //
 
-    new Service(this, 'yelb-appserver', {
+    new KubeService(this, 'yelb-appserver', {
       metadata: { name: "yelb-appserver"},
       spec: {
         type: 'ClusterIP',
@@ -55,7 +54,7 @@ export class YelbCdk8s extends Chart {
       }
     });
 
-    new Deployment(this, 'yelb-appserver-deployment', {
+    new KubeDeployment(this, 'yelb-appserver-deployment', {
       spec: {
         replicas: 2,
         selector: {
@@ -67,7 +66,7 @@ export class YelbCdk8s extends Chart {
             containers: [
               {
                 name: 'yelb-appserver',
-                image: 'mreferre/yelb-appserver:0.6'
+                image: 'vinodkum001/yelbappserver:1'
               }
             ]
           }
@@ -77,42 +76,9 @@ export class YelbCdk8s extends Chart {
 
     // -------------------------------------------------------------------- //
 
-    // -------------------------------------------------------------------- //
 
-    new Service(this, 'yelb-db', {
-      metadata: { name: "yelb-db"},
-      spec: {
-        type: 'ClusterIP',
-        ports: [ { port: 5432, targetPort: IntOrString.fromNumber(5432) } ],
-        selector: yelbdblabel,
-      }
-    });
 
-    new Deployment(this, 'yelb-db-deployment', {
-      spec: {
-        replicas: 1,
-        selector: {
-          matchLabels: yelbdblabel
-        },
-        template: {
-          metadata: { labels: yelbdblabel  },
-          spec: {
-            containers: [
-              {
-                name: 'yelb-db',
-                image: 'mreferre/yelb-db:0.6'
-              }
-            ]
-          }
-        }
-      }
-    });
-
-    // -------------------------------------------------------------------- //
-
-    // -------------------------------------------------------------------- //
-
-    new Service(this, 'redis-server', {
+    new KubeService(this, 'redis-server', {
       metadata: { name: "redis-server"},
       spec: {
         type: 'ClusterIP',
@@ -121,7 +87,7 @@ export class YelbCdk8s extends Chart {
       }
     });
 
-    new Deployment(this, 'redis-server-deployment', {
+    new KubeDeployment(this, 'redis-server-deployment', {
       spec: {
         replicas: 1,
         selector: {
@@ -141,7 +107,10 @@ export class YelbCdk8s extends Chart {
       }
     });
 
+
     // -------------------------------------------------------------------- //
+
+
 
   }
 }

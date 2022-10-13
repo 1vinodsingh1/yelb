@@ -1,5 +1,5 @@
 {
-  "name": "yelb-cdk8sv2",
+  "name": "cdk8s",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
@@ -8,23 +8,24 @@
   "scripts": {
     "import": "cdk8s import",
     "synth": "cdk8s synth",
-    "compile": "tsc",
-    "watch": "tsc -w",
+    "compile": "tsc --build",
+    "watch": "tsc --build -w",
     "test": "jest",
     "build": "npm run compile && npm run test && npm run synth",
     "upgrade": "npm i cdk8s@latest cdk8s-cli@latest",
     "upgrade:next": "npm i cdk8s@next cdk8s-cli@next"
   },
   "dependencies": {
-    "cdk8s": "^2.4.39",
-    "constructs": "^2.0.1"
+    "cdk8s": "^2.5.14",
+    "cdk8s-plus-22": "^2.0.0-rc.145",
+    "constructs": "^10.1.129"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.3",
-    "@types/node": "^14.0.5",
-    "cdk8s-cli": "^2.0.121",
-    "jest": "^26.0.1",
-    "ts-jest": "^26.0.0",
-    "typescript": "^3.9.3"
+    "@types/jest": "^26.0.24",
+    "@types/node": "^14.18.32",
+    "cdk8s-cli": "^2.1.12",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.8.4"
   }
 }
