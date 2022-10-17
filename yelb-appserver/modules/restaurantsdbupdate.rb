@@ -27,10 +27,10 @@ def restaurantsdbupdate(restaurant)
     else 
         con = PG.connect  :host => $yelbdbhost,
                       :port => $yelbdbport,
-                      :dbname => 'yelbdatabase',
+                      :dbname => 'postgres',
                       :user => 'postgres',
-                      :password => 'postgres_password'
-        con.prepare('statement1', 'UPDATE restaurants SET count = count +1 WHERE name = $1')
+                      :password => 'Great12345'
+        con.prepare('statement1', 'UPDATE mstenant2db_dbo.restaurants SET count = count +1 WHERE name = $1')
         res = con.exec_prepared('statement1', [ restaurant ])
         con.close
     end 

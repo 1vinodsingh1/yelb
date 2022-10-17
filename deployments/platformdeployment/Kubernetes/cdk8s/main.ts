@@ -65,8 +65,9 @@ export class YelbCdk8s extends Chart {
           spec: {
             containers: [
               {
+                image: 'vinodkum001/yelbappserver:2',
                 name: 'yelb-appserver',
-                image: 'vinodkum001/yelbappserver:1'
+		imagePullPolicy: 'Always',
               }
             ]
           }

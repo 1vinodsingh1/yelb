@@ -16,10 +16,10 @@ def restaurantsdbread(restaurant)
     else 
         con = PG.connect  :host => $yelbdbhost,
                         :port => $yelbdbport,
-                        :dbname => 'yelbdatabase',
+                        :dbname => 'postgres',
                         :user => 'postgres',
-                        :password => 'postgres_password'
-        con.prepare('statement1', 'SELECT count FROM restaurants WHERE name =  $1')
+                        :password => 'Great12345'
+        con.prepare('statement1', 'SELECT count FROM mstenant2db_dbo.restaurants WHERE name =  $1')
         res = con.exec_prepared('statement1', [ restaurant ])
         restaurantcount = res.getvalue(0,0)
         con.close

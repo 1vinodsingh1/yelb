@@ -31,7 +31,7 @@ disable :protection
 configure :production do
   set :redishost, "redis-server"
   set :port, 4567
-  set :yelbdbhost => "yelb-db-test-instance-1.cha8bjtv3zkg.us-west-2.rds.amazonaws.com"
+  set :yelbdbhost => "tenantdb2-instance-1.cha8bjtv3zkg.us-west-2.rds.amazonaws.com"
   set :yelbdbport => 5432
   set :yelbddbrestaurants => ENV['YELB_DDB_RESTAURANTS']
   set :yelbddbcache => ENV['YELB_DDB_CACHE']
@@ -40,7 +40,7 @@ end
 configure :test do
   set :redishost, "redis-server"
   set :port, 4567
-  set :yelbdbhost => "yelb-db-test-instance-1.cha8bjtv3zkg.us-west-2.rds.amazonaws.com"
+  set :yelbdbhost => "tenantdb2-instance-1.cha8bjtv3zkg.us-west-2.rds.amazonaws.com"
   set :yelbdbport => 5432
   set :yelbddbrestaurants => ENV['YELB_DDB_RESTAURANTS']
   set :yelbddbcache => ENV['YELB_DDB_CACHE']
