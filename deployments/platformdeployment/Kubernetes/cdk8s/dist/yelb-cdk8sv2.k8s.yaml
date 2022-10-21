@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yelb-ui
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: yelb-ui-deployment
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yelb-cdk8sv2-yelb-ui-deployment-c8ee4756
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yelb-ui-deployment
+  template:
+    metadata:
+      labels:
+        app: yelb-ui-deployment
+    spec:
+      containers:
+        - image: mreferre/yelb-ui:0.8
+          name: yelb-ui-container
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yelb-appserver
+spec:
+  ports:
+    - port: 4567
+      targetPort: 4567
+  selector:
+    app: yelb-appserver-deployment
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yelb-cdk8sv2-yelb-appserver-deployment-c85a8b66
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yelb-appserver-deployment
+  template:
+    metadata:
+      labels:
+        app: yelb-appserver-deployment
+    spec:
+      containers:
+        - image: vinodkum001/yelbappserver:2
+          imagePullPolicy: Always
+          name: yelb-appserver
+          env:
+          - name: YELB_DB_SERVER_ENDPOINT
+            value: $NEWPOSTGRESENDPOINT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-server
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: redis-server-deployment
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yelb-cdk8sv2-redis-server-deployment-c8a2736f
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-server-deployment
+  template:
+    metadata:
+      labels:
+        app: redis-server-deployment
+    spec:
+      containers:
+        - image: redis:4.0.2
+          name: redis-server
